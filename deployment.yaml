@@ -33,9 +33,6 @@ spec:
               protocol: TCP
             - containerPort: 33060
               protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: volume-image-0
@@ -66,7 +63,7 @@ spec:
   type: ClusterIP
 
 ---
-apiVersion: extensions/v1beta2
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: jenkins-java-demo
@@ -93,6 +90,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+          protocol: TCP
      imagePullSecrets:
         - name: kin-acr
 
