@@ -1,2 +1,2 @@
-# jenkins-demo
-Jenkins Demo on Alibaba CLoud Kubernetes (ACK)
+# Jenkins Demo on Alibaba Cloud Kubernetes (ACK)
+Jenkins Demo on Alibaba Cloud Kubernetes (ACK)
