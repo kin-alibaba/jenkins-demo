@@ -63,7 +63,7 @@ spec:
   type: ClusterIP
 
 ---
-apiVersion: apps/v1beta2
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: jenkins-java-demo
@@ -78,22 +78,20 @@ spec:
         app: jenkins-java-demo
     spec:
       containers:
-      - env:
-            - name: MYSQL_HOST
-              value: mysql-demo-svc
-            - name: MYSQL_USER
-              value: root
-            - name: MYSQL_PASS
-              value: 'Password#3'
-        name: jenkins-java-demo
+      - name: jenkins-java-demo
         image: ${ORIGIN_REPO}/${REPO}:${IMAGE_TAG}
+        env:
+        - name: MYSQL_HOST
+          value: mysql-demo-svc
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PASS
+          value: 'Password#3'
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-          protocol: TCP
-     imagePullSecrets:
+        imagePullSecrets:
         - name: kin-acr
-
 ---
 apiVersion: v1
 kind: Service
