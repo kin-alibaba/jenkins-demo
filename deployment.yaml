@@ -90,8 +90,8 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        imagePullSecrets:
-        - name: kin-acr
+      imagePullSecrets:
+      - name: kin-acr
 ---
 apiVersion: v1
 kind: Service
