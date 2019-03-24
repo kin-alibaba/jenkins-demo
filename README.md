@@ -1,2 +1,2 @@
-# Jenkins Demo on Alibaba Cloud Kubernetes (ACK)
-Jenkins Demo on Alibaba Cloud Kubernetes (ACK)
+# Prometheus Demo on Alibaba Cloud Kubernetes (ACK)
+Prometheus Custom Metrics Demo on Alibaba Cloud Kubernetes (ACK)
