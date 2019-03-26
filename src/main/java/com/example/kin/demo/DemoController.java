@@ -20,7 +20,7 @@ import java.util.ArrayList;
 @Controller
 
 // Add a Prometheus metrics enpoint to the route `/prometheus`. `/metrics` is already taken by Actuator.
-@EnablePrometheusEndpoint
+//@EnablePrometheusEndpoint
 // Pull all metrics from Actuator and expose them as Prometheus metrics. Need to disable security feature in properties file.
 @EnableSpringBootMetricsCollector
 
