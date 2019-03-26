@@ -7,13 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 // import the Prometheus packages.
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
-import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
+//import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
+//import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
 // Prometheus counter package.
-import io.prometheus.client.Counter;
+//import io.prometheus.client.Counter;
 // Prometheus Histogram package.
-import io.prometheus.client.Histogram;
-
+//import io.prometheus.client.Histogram;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 
 import java.util.ArrayList;
 
@@ -22,21 +24,24 @@ import java.util.ArrayList;
 // Add a Prometheus metrics enpoint to the route `/prometheus`. `/metrics` is already taken by Actuator.
 //@EnablePrometheusEndpoint
 // Pull all metrics from Actuator and expose them as Prometheus metrics. Need to disable security feature in properties file.
-@EnableSpringBootMetricsCollector
+//@EnableSpringBootMetricsCollector
 
 public class DemoController {
 
+    private Counter hellos = Metrics.counter("hellos");
+	
     @Autowired
     private ItemRepository repository;
 
     // Define a counter metric for /prometheus
-	static final Counter requests = Counter.build()
-    	.name("http_requests_total").help("Total number of requests.").register();
+	//static final Counter requests = Counter.build()
+    	//.name("http_requests_total").help("Total number of requests.").register();
     
     @RequestMapping("/")
     public String index(Model model) {
         // Increase the counter metric
-		requests.inc();
+	//	requests.inc();
+	hellos.increment();
         ArrayList<Item> List = (ArrayList<Item>) repository.findAll();
         model.addAttribute("newitem", new Item());
         model.addAttribute("items", new ListViewModel(List));
