@@ -36,7 +36,7 @@ public class DemoController {
     // Define a counter metric for /prometheus
 	//static final Counter requests = Counter.build()
     	//.name("http_requests_total").help("Total number of requests.").register();
-    
+    @Timed
     @RequestMapping("/")
     public String index(Model model) {
         // Increase the counter metric
