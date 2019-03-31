@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class DemoController {
 
-    private Counter hellos = Metrics.counter("hellos");
+    private Counter count = Metrics.counter("kin_custom_metric");
 	
     @Autowired
     private ItemRepository repository;
@@ -41,7 +41,7 @@ public class DemoController {
     public String index(Model model) {
         // Increase the counter metric
 	//	requests.inc();
-	hellos.increment();
+	count.increment();
         ArrayList<Item> List = (ArrayList<Item>) repository.findAll();
         model.addAttribute("newitem", new Item());
         model.addAttribute("items", new ListViewModel(List));
@@ -50,14 +50,16 @@ public class DemoController {
 
     @RequestMapping("/add")
     public String Todo(@ModelAttribute Item requestItem) {
-        Item item = new Item(requestItem.getCategory(), requestItem.getName());
+        count.increment();
+	Item item = new Item(requestItem.getCategory(), requestItem.getName());
         repository.save(item);
         return "redirect:/";
     }
 
     @RequestMapping("/update")
     public String updateitem(@ModelAttribute ListViewModel requestItems) {
-        for (Item requestItem : requestItems.getList() ) {
+        count.increment();
+	for (Item requestItem : requestItems.getList() ) {
              Item item = new Item(requestItem.getCategory(), requestItem.getName());
              item.setComplete(requestItem.isComplete());
              item.setId(requestItem.getId());
