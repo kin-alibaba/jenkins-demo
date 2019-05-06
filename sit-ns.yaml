@@ -10,7 +10,7 @@ metadata:
   namespace: sit-ns
 type: kubernetes.io/dockerconfigjson
 data: 
-  .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS1pbnRsLXZwYy5jbi1ob25na29uZy5hbGl5dW5jcy5jb20iOnsiYXV0aCI6ImVTNXJhVzVBZEdWemRDNWpiMjA2VUdGemMzZHZjbVFqTXc9PSJ9fX0=
+  .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS1pbnRsLmNuLWhvbmdrb25nLmFsaXl1bmNzLmNvbSI6eyJhdXRoIjoiZVM1cmFXNUFkR1Z6ZEM1amIyMDZVR0Z6YzNkdmNtUWpNdz09In19fQ==
 ---
 apiVersion: apps/v1beta2
 kind: Deployment
