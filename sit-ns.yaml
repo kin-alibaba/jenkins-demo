@@ -10,7 +10,7 @@ metadata:
   namespace: sit-ns
 type: kubernetes.io/dockerconfigjson
 data: 
-  .dockerconfigjson: {"auths": {"registry-intl-vpc.cn-hongkong.aliyuncs.com": {"auth": "eS5raW5AdGVzdC5jb206UGFzc3dvcmQjMw=="}}}
+  .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS1pbnRsLXZwYy5jbi1ob25na29uZy5hbGl5dW5jcy5jb20iOnsiYXV0aCI6ImVTNXJhVzVBZEdWemRDNWpiMjA2VUdGemMzZHZjbVFqTXc9PSJ9fX0=
 ---
 apiVersion: apps/v1beta2
 kind: Deployment
