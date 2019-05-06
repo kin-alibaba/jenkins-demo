@@ -73,7 +73,7 @@ spec:
       protocol: TCP
       targetPort: 33060
   selector:
-    app: mysql-demo
+    app: mysql-sit
   type: ClusterIP
 
 ---
