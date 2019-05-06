@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sit-ns
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+  labels:
+    app: mysql-sit
+  name: mysql-sit
+  namespace: sit-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-sit
+  template:
+    metadata:
+      labels:
+        app: mysql-sit
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_MAJOR
+              value: '5.7'
+            - name: MYSQL_ROOT_PASSWORD
+              value: 'Password#3'
+            - name: MYSQL_DATABASE
+              value: demodb
+          image: 'mysql:5.7.25'
+          imagePullPolicy: IfNotPresent
+          name: mysql-sit
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+            - containerPort: 33060
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: volume-image-0
+      volumes:
+        - hostPath:
+            path: /var/lib/mysql
+            type: ''
+          name: volume-image-0
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-sit-svc
+  namespace: sit-ns
+spec:
+  ports:
+    - name: mysql-sit-svc-3306-3306
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    - name: mysql-sit-svc-33060-33060
+      port: 33060
+      protocol: TCP
+      targetPort: 33060
+  selector:
+    app: mysql-demo
+  type: ClusterIP
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sample-app-sit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app-sit
+  template:
+    metadata:
+      labels:
+        app: sample-app-sit
+    spec:
+      containers:
+      - name: sample-app-sit
+        image: ${ORIGIN_REPO}/${REPO}:${IMAGE_TAG}
+        env:
+        - name: MYSQL_HOST
+          value: mysql-sit-svc
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PASS
+          value: 'Password#3'
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: kin-acr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-app-sit
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: sample-app-sit
+  selector:
+    app: sample-app-sit
+  type: LoadBalancer
