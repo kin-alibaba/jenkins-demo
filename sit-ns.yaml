@@ -3,6 +3,15 @@ kind: Namespace
 metadata:
   name: sit-ns
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kin-acr
+  namespace: sit-ns
+type: kubernetes.io/dockerconfigjson
+data: 
+  .dockerconfigjson: {"auths":{"registry-intl-vpc.cn-hongkong.aliyuncs.com":{"auth":"eS5raW5AdGVzdC5jb206UGFzc3dvcmQjMw=="}}}
+---
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -84,7 +93,7 @@ spec:
     spec:
       containers:
       - name: sample-app-sit
-        image: ${ORIGIN_REPO}/${REPO}:${IMAGE_TAG}
+        image: registry-intl.cn-hongkong.aliyuncs.com/kin-test-acr/cloud-expo:$TAG
         env:
         - name: MYSQL_HOST
           value: mysql-sit-svc
@@ -101,7 +110,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sample-app-sit
+  name: sample-app-sit-svc
 spec:
   ports:
   - port: 80
@@ -109,4 +118,21 @@ spec:
     name: sample-app-sit
   selector:
     app: sample-app-sit
-  type: LoadBalancer
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/service-weight: ''
+  name: sit-ingress
+  namespace: sit-ns
+spec:
+  rules:
+    - host: sit.seyantszkin.xyz
+      http:
+        paths:
+          - backend:
+              serviceName: sample-app-sit-svc
+              servicePort: 80
+            path: /
