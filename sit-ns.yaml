@@ -93,7 +93,7 @@ spec:
     spec:
       containers:
       - name: sample-app-sit
-        image: registry-intl.cn-hongkong.aliyuncs.com/kin-test-acr/cloud-expo:$TAG
+        image: registry-intl.cn-hongkong.aliyuncs.com/${REPO}:${TAG}
         env:
         - name: MYSQL_HOST
           value: mysql-sit-svc
