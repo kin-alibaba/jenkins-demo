@@ -73,7 +73,7 @@ spec:
       protocol: TCP
       targetPort: 33060
   selector:
-    app: mysql-demo
+    app: mysql-sit
   type: ClusterIP
 
 ---
@@ -97,7 +97,7 @@ spec:
         image: registry-intl.cn-hongkong.aliyuncs.com/${REPO}:${TAG}
         env:
         - name: MYSQL_HOST
-          value: mysql-sit-svc
+          value: mysql-sit-svc.${KUBE_NS}
         - name: MYSQL_USER
           value: root
         - name: MYSQL_PASS
