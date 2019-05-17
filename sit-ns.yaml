@@ -138,3 +138,4 @@ spec:
               serviceName: sample-app-sit-svc
               servicePort: 80
             path: /
+
