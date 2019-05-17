@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: sit-ns
+  name: ${KUBE_NS}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: kin-acr
-  namespace: sit-ns
+  namespace: ${KUBE_NS}
 type: kubernetes.io/dockerconfigjson
 data: 
   .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS1pbnRsLmNuLWhvbmdrb25nLmFsaXl1bmNzLmNvbSI6eyJhdXRoIjoiZVM1cmFXNUFkR1Z6ZEM1amIyMDZVR0Z6YzNkdmNtUWpNdz09In19fQ==
@@ -20,7 +20,7 @@ metadata:
   labels:
     app: mysql-sit
   name: mysql-sit
-  namespace: sit-ns
+  namespace: ${KUBE_NS}
 spec:
   replicas: 1
   selector:
@@ -61,7 +61,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-sit-svc
-  namespace: sit-ns
+  namespace: ${KUBE_NS}
 spec:
   ports:
     - name: mysql-sit-svc-3306-3306
@@ -73,7 +73,7 @@ spec:
       protocol: TCP
       targetPort: 33060
   selector:
-    app: mysql-sit
+    app: mysql-demo
   type: ClusterIP
 
 ---
@@ -81,7 +81,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: sample-app-sit
-  namespace: sit-ns
+  namespace: ${KUBE_NS}
 spec:
   replicas: 1
   selector:
@@ -112,7 +112,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sample-app-sit-svc
-  namespace: sit-ns
+  namespace: ${KUBE_NS}
 spec:
   ports:
   - port: 80
@@ -128,7 +128,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/service-weight: ''
   name: sit-ingress
-  namespace: sit-ns
+  namespace: ${KUBE_NS}
 spec:
   rules:
     - host: sit.seyantszkin.xyz
